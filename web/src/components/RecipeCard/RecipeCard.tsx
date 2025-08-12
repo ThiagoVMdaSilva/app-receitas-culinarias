@@ -55,6 +55,13 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onLikeToggle }) => {
     return ingredients.split(',').slice(0, 3).map(ing => ing.trim())
   }
 
+  // Função para extrair texto limpo do HTML
+  const extractTextFromHtml = (html: string) => {
+    const div = document.createElement('div')
+    div.innerHTML = html
+    return div.textContent || div.innerText || ''
+  }
+
   return (
     <Card 
       sx={{ 
@@ -108,8 +115,8 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onLikeToggle }) => {
         </Box>
 
         <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          <strong>Modo de preparo:</strong> {recipe.instructions.substring(0, 100)}
-          {recipe.instructions.length > 100 && '...'}
+          <strong>Modo de preparo:</strong> {extractTextFromHtml(recipe.instructions).substring(0, 100)}
+          {extractTextFromHtml(recipe.instructions).length > 100 && '...'}
         </Typography>
 
         {recipe.personalNote && (
